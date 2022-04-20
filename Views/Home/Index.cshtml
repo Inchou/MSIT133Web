@@ -15,7 +15,62 @@
             myDiv.innerHTML = "<h2>ねこ</h2>";
         })*/
         $("#button1").click(() => {
-            $("#div1").html("<h2>ねこ</h2>");
+            //$("#div1").html("<h2>ねこ</h2>");
+
+            //var emps = [{ "name": "Tom", "workYears": 3, "salary": 35000 },
+            //{ "name": "Jack", "workYears": 5, "salary": 40000 },
+            //    { "name": "Mary", "workYears": 7, "salary": 45000 }];
+            //for (var emp of emps) {
+            //    //console.log(item);
+            //    for (var item in emp) {
+            //        console.log(item + ":" + emp[item]);
+            //    }
+            //}
+
+            var emp = {
+                "employees": [
+                    { "name": "Tom", "workYears": 3, "salary": 35000 },
+                    { "name": "Jack", "workYears": 5, "salary": 40000 },
+                    { "name": "Mary", "workYears": 7, "salary": 45000 }
+                ]
+            };
+            //for (var item in emp) {
+            //    //console.log(emp[item]);
+            //    for (var x of emp[item]) {
+            //        //console.log(x);
+            //        for (var x1 in x) {
+            //            console.log(x1 + ":" + x[x1]);
+            //        }
+            //    }
+            //}
+
+            //ES6
+            //emp.employees.forEach((employee) => {
+            //    //解構賦值(Destructuring assignment) 
+            //    const { name, workYears, salary } = employee;
+
+            //    console.log(name)
+            //    console.log(salary)
+            //    console.log(workYears)
+            //})
+            $("#div1").empty();
+            $("#div1").append("<table class='table'><thead></thead><tbody></tbody></table>");
+            $.each(emp, function (index,value) {
+                $.each(value, function (index, value) {
+                    if (index==0) {
+                        $("thead:first").append("<tr></tr>");
+                        $.each(value, function (index, value) {
+                            $("thead tr:first").append("<th>" + index + "</th>");
+                        })
+                    }
+                    $("tbody:first").append("<tr></tr>");
+                    $.each(value, function (index, value) {
+                        $("tbody tr:last").append("<td>" + value + "</td>");
+                        //console.log(value)
+                    })
+                })
+            })
+
         })
     </script>
 
