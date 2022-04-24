@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = "FirstAjax";
+}
+
+<h1>FirstAjax</h1>
+<input type="text" placeholder="name" id="txtName"/>
+<input type="number" placeholder="age" id="txtAge"/>
+<input type="button" value="Ajax" id="button1" />
+<input type="button" value="Stop" id="button2" />
+<div id="div1"></div>
+
+@section Scripts{
+    <script>
+        const btn = $("#button1");
+        const btnStop = $("#button2");
+        const divMessage = $("#div1");
+        //步驟一建立Ajax物件
+        const xhr = new XMLHttpRequest();
+
+        btn.click(() => {
+            //步驟三接收伺服器回傳的結果(Response)
+            //load事件表示伺服器已經回傳結果到Client端了
+            xhr.addEventListener("load", () => {
+                //接收結果顯示在div中
+                divMessage.html(xhr.responseText);
+            })
+
+            //Ajax開始
+            xhr.addEventListener("loadstart", () => {
+                btn.attr("disabled", true).val("Loading...");
+            })
+            //Ajax結束
+            xhr.addEventListener("loadend", () => {
+                btn.attr("disabled", false).val("Ajax");
+            })
+            //timeout設定時間到了，但伺服器還沒回傳結果
+            xhr.addEventListener("timeout", () => {
+                divMessage.html("貓神忙線中");
+            })
+            //abort()方法執行是會觸發abort事件
+            xhr.addEventListener("abort", () => {
+                console.log('abort')
+                divMessage.html("已取消執行");
+            })
+
+            //步驟二對伺服器發出要求(Request)
+            var txtName = $("#txtName").val();
+            var txtAge = $("#txtAge").val();
+            //const url = "@Url.Action("index","api")";
+            const url = "@Url.Content("~/api/index")";
+            const params = `?name=${txtName}&age=${txtAge}`;
+            //console.log(txtName);
+            //console.log(txtAge);
+            //xhr.open("GET", `/api/index?name=${txtName}&age=${txtAge}`);
+            xhr.open("GET", `${url}${params}`);
+            //xhr.open("GET", `/api/index?name=A&age=1`);
+            xhr.timeout = 3000;
+            xhr.send();
+
+        })
+
+        //使用者可以取消程式的執行
+        btnStop.click(() => {
+            xhr.abort();
+        })
+
+    </script>
+}
+

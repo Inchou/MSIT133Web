@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "AjaxFormData";
+}
+
+<h1>AjaxFormData</h1>
+<div class="row">
+    <div class="col-6">
+        <form method="post" name="Member">
+            <div class="mb-3">
+                <label for="Name" class="form-label">名字</label>
+                <input type="text" class="form-control" id="Name" name="Name">
+            </div>
+            <div class="mb-3">
+                <label for="Email1" class="form-label">Email</label>
+                <input type="email" class="form-control" id="Email1" name="Email">
+            </div>
+            <div class="mb-3">
+                <label for="Age" class="form-label">年齡</label>
+                <input type="number" class="form-control" id="Age" name="Age">
+            </div>
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input" id="customFile" name="photo">
+                <label class="custom-file-label" for="customFile">選擇檔案</label>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+        <div class="alert alert-primary" role="alert" id="div1">
+            @*@ViewBag.name*@
+        </div>
+    </div>
+</div>
+
+@section Scripts{ 
+<script>
+    const btn = document.querySelector('button[type="submit"]');
+    const divMessage = $("#div1");
+    btn.addEventListener("click", (evt) => {
+        evt.preventDefault();
+        //console.log("貓");
+        const xhr = new XMLHttpRequest();
+
+        xhr.addEventListener("load", () => {
+            let data = xhr.responseText;
+            divMessage.html(data);
+        })
+
+        xhr.open("POST","@Url.Content("~/api/Register")");
+        //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        const formData = new FormData(document.Member);
+        formData.append("file", document.querySelector('#customFile').files[0]);
+        //const params = `name=${txtName.val()}&age=${txtAge.val()}&email=${txtEmail.val()}`;
+        xhr.send(formData);
+    })
+</script>
+}

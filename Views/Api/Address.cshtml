@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewData["Title"] = "Address";
+}
+
+<h1>Address</h1>
+<select id="select1"></select>
+<select id="select2"></select>
+<select id="select3"></select>
+
+@section Scripts{
+    <script>
+    const selCity = document.querySelector("#select1");
+    selCity.addEventListener("change", () => {
+        console.log(selCity.options[selCity.selectedIndex].value);
+        let city = selCity.options[selCity.selectedIndex].value;
+        xhr1.open("get", "@Url.Content("~/api/Districts?city=")" + city);
+        xhr1.send();
+    })
+    const selDistrict = document.querySelector("#select2");
+    selDistrict.addEventListener("change", () => {
+        console.log(selDistrict.options[selDistrict.selectedIndex].value);
+        let district = selDistrict.options[selDistrict.selectedIndex].value;
+        xhr2.open("get", "@Url.Content("~/api/Roads?siteid=")" + district);
+        xhr2.send();
+    })
+    const selRoad = document.querySelector("#select3");
+    selRoad.addEventListener("change", () => {
+        console.log(selRoad.options[selRoad.selectedIndex].value);
+    })
+    const xhr = new XMLHttpRequest();
+    xhr.addEventListener("load", () => {
+        const datas = JSON.parse(xhr.responseText);
+        //console.log(datas);
+        //console.log(JSON.parse(datas));
+        selCity.length = 0;
+        datas.forEach((item) => {
+            //console.log(item.city);
+            const opt = new Option(item.city, item.city);
+            selCity.options.add(opt);
+        })
+        let city = selCity.options[selCity.selectedIndex].value;
+        //console.log(city);
+        //console.log("@Url.Content("~/api/Districts?city=")" + city);
+        xhr1.open("get", "@Url.Content("~/api/Districts?city=")" + city);
+        xhr1.send();
+    })
+    xhr.open("get","@Url.Content("~/api/city")");
+    xhr.send();
+    const xhr1 = new XMLHttpRequest();
+    xhr1.addEventListener("load", () => {
+        const datas = JSON.parse(xhr1.responseText);
+        //console.log(datas);
+        selDistrict.length = 0;
+        datas.forEach((item) => {
+            //console.log(item.city);
+            const opt = new Option(item.siteId, item.siteId);
+            selDistrict.options.add(opt);
+        })
+        let district = selDistrict.options[selDistrict.selectedIndex].value;
+        xhr2.open("get", "@Url.Content("~/api/Roads?siteid=")" + district);
+        xhr2.send();
+    })
+    const xhr2 = new XMLHttpRequest();
+    xhr2.addEventListener("load", () => {
+        const datas = JSON.parse(xhr2.responseText);
+        //console.log(datas);
+        selRoad.length = 0;
+        datas.forEach((item) => {
+            //console.log(item.city);
+            const opt = new Option(item.road, item.road);
+            selRoad.options.add(opt);
+        })
+    })
+    </script>
+}

@@ -33,5 +33,24 @@ namespace MSIT133Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult FirstAjax()
+        {
+            return View();
+        }
+        public IActionResult AjaxPost()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AjaxPost(User user)
+        {
+            ViewBag.name = user.name;
+            return View();
+        }
+        public IActionResult AjaxFormData(User user)
+        {
+            ViewBag.name = user.name;
+            return View();
+        }
     }
 }
