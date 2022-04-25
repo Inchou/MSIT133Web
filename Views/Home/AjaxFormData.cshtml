@@ -36,8 +36,19 @@
     const btn = document.querySelector('button[type="submit"]');
     const divMessage = $("#div1");
     btn.addEventListener("click", (evt) => {
-        evt.preventDefault();
-        //console.log("貓");
+        evt.preventDefault();//取消預設的行為
+        const formdata = new FormData(document.Member);
+        //改用fetch
+        fetch("@Url.Content("~/api/Register")", {
+            method: "post",
+            body: formdata
+        }).then(response => response.text())
+            .then(data => {
+                divMessage.html(data);
+            })
+
+
+        @*//console.log("貓");
         const xhr = new XMLHttpRequest();
 
         xhr.addEventListener("load", () => {
@@ -50,7 +61,7 @@
         const formData = new FormData(document.Member);
         formData.append("file", document.querySelector('#customFile').files[0]);
         //const params = `name=${txtName.val()}&age=${txtAge.val()}&email=${txtEmail.val()}`;
-        xhr.send(formData);
+        xhr.send(formData);*@
     })
 </script>
 }

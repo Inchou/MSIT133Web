@@ -52,5 +52,9 @@ namespace MSIT133Web.Controllers
             ViewBag.name = user.name;
             return View();
         }
+        public IActionResult Promise()
+        {
+            return View();
+        }
     }
 }

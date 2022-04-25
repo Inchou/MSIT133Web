@@ -94,5 +94,11 @@ namespace MSIT133Web.Controllers
             var roads = _context.Addresses.Where(a => a.SiteId == siteid).Select(a => new { a.Road }).Distinct().OrderBy(a => a.Road);
             return Json(roads);
         }
+        public IActionResult GetImageByte(int id = 1)
+        {
+            Member member = _context.Members.Find(id);
+            byte[] img = member.FileData;
+            return File(img, "image/jpeg");
+        }
     }
 }
