@@ -56,5 +56,22 @@ namespace MSIT133Web.Controllers
         {
             return View();
         }
+        public IActionResult History()
+        {
+            return View();
+        }
+        public IActionResult JQuery()
+        {
+            return View();
+        }
+        public IActionResult Partial()
+        {
+            ViewBag.KK = "帶著PartialView的貓貓";
+            return PartialView();
+        }
+        public IActionResult ShipperCors()
+        {
+            return View();
+        }
     }
 }
